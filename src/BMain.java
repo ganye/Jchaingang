@@ -33,12 +33,13 @@ public class BMain implements IRCEventListener
 		{
 			MessageEvent me = (MessageEvent) e;
 			String msg = me.getMessage();
-			//System.out.println(msg);
 			String[] margs = msg.split("[\\s,:]");
-			/*for(int i = 0; i < margs.length; i++){
-				System.out.println(margs[i]);
-			}*/
-			
+
+			try {
+				hallyberry = new HalD();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			if(margs[0].equalsIgnoreCase("TimHortons"))
 				e.getSession().getChannel("#installgentoo").say(hallyberry.plsRespond(margs[2]));
 			if(rng.nextInt(10) == 1)
@@ -57,7 +58,7 @@ public class BMain implements IRCEventListener
  
 	public static void main(String[] args) throws IOException
 	{
-		hallyberry = new HalD();
+		
 		new BMain();
 	}
 }

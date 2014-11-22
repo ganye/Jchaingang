@@ -13,7 +13,7 @@ public class HalD {
 		   while(br.ready()){
 			   hal.add(br.readLine());
 		   }
-
+		   br.close();
 	}
 	public static void main(String[] args) throws IOException {
 		//na
