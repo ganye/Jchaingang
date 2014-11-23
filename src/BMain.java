@@ -67,9 +67,9 @@ public class BMain implements IRCEventListener
                         inTimeout = true;
                         return;
                     }
-                }
+                } else
 				e.getSession().getChannel("#installgentoo").say(hallyberry.plsRespond(margs[2]));
-			if(rng.nextInt(10) == 1)
+			else if(rng.nextInt(10) == 1)
 				e.getSession().getChannel("#installgentoo").say(hallyberry.plsRespond(msg));
 		}
 		else if (e.getType() == Type.JOIN_COMPLETE)
