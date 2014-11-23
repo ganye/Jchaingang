@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.util.Date;
 import java.util.Random;
+
 import jerklib.ConnectionManager;
 import jerklib.Profile;
 import jerklib.Session;
@@ -12,6 +14,8 @@ import jerklib.listeners.IRCEventListener;
 public class BMain implements IRCEventListener
 {
 	private ConnectionManager manager;
+    private boolean inTimeout = false;
+    private Date timeoutTime = null;
     static HalD hallyberry;
     Random rng = new Random();
 	public BMain()
@@ -31,6 +35,17 @@ public class BMain implements IRCEventListener
 		}
 		else if (e.getType() == Type.PRIVATE_MESSAGE)
 		{
+            if(inTimeout && timeoutTime != null) {
+                Date now = new Date();
+                long difference = now.getTime() - timeoutTime.getTime();
+                int minutes = (int) ((difference / (1000 * 60)) % 60);
+                if (minutes >= 15) {
+                    inTimeout = false;
+                    timeoutTime = null;
+                }
+                return;
+            }
+
 			MessageEvent me = (MessageEvent) e;
 			String msg = me.getMessage();
 			String[] margs = msg.split("[\\s,:]");
@@ -41,6 +56,14 @@ public class BMain implements IRCEventListener
 				e1.printStackTrace();
 			}
 			if(margs[0].equalsIgnoreCase("TimHortons"))
+                if(margs[1].equalsIgnoreCase("hush")) {
+                    String nick = ((MessageEvent) e).getNick();
+                    if((nick.equalsIgnoreCase("ganye") || nick.equalsIgnoreCase("floby"))) {
+                        timeoutTime = new Date();
+                        inTimeout = true;
+                        return;
+                    }
+                }
 				e.getSession().getChannel("#installgentoo").say(hallyberry.plsRespond(margs[2]));
 			if(rng.nextInt(10) == 1)
 				e.getSession().getChannel("#installgentoo").say(hallyberry.plsRespond(msg));
