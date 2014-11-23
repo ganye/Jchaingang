@@ -35,6 +35,10 @@ public class BMain implements IRCEventListener
 		}
 		else if (e.getType() == Type.PRIVATE_MESSAGE)
 		{
+            String channel = ((MessageEvent) e).getChannel().getName();
+            if(!channel.equalsIgnoreCase("#installgentoo.com"))
+                return;
+
             if(inTimeout && timeoutTime != null) {
                 Date now = new Date();
                 long difference = now.getTime() - timeoutTime.getTime();
